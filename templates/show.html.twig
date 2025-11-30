@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail du rendez-vous{% endblock %}
+
+{% block body %}
+    <h1>Détail du rendez-vous</h1>
+
+    <ul>
+        <li>ID : {{ appointment.id }}</li>
+        <li>Date : {{ appointment.date|date('Y-m-d') }}</li>
+        <li>Heure : {{ appointment.heure|date('H:i') }}</li>
+        <li>Médecin : {{ appointment.doctor.nom }}</li>
+        <li>Patient : {{ appointment.patient.nom }}</li>
+        <li>Statut : {{ appointment.status }}</li>
+    </ul>
+
+    <a href="{{ path('appointment_edit', {id: appointment.id}) }}" class="btn btn-warning">Modifier</a>
+    <a href="{{ path('appointment_index') }}" class="btn btn-link">Retour à la liste</a>
+{% endblock %}

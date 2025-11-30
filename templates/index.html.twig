@@ -1,0 +1,48 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des rendez-vous{% endblock %}
+
+{% block body %}
+    <h1>Liste des rendez-vous</h1>
+
+    <a href="{{ path('appointment_new') }}" class="btn btn-primary mb-3">Nouveau rendez-vous</a>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Heure</th>
+            <th>Médecin</th>
+            <th>Patient</th>
+            <th>Statut</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for appointment in appointments %}
+            <tr>
+                <td>{{ appointment.id }}</td>
+                <td>{{ appointment.date|date('Y-m-d') }}</td>
+                <td>{{ appointment.heure|date('H:i') }}</td>
+                <td>{{ appointment.doctor.nom }}</td>
+                <td>{{ appointment.patient.nom }}</td>
+                <td>{{ appointment.status }}</td>
+                <td>
+                    <a href="{{ path('appointment_show', {id: appointment.id}) }}" class="btn btn-sm btn-info">Voir</a>
+                    <a href="{{ path('appointment_edit', {id: appointment.id}) }}" class="btn btn-sm btn-warning">Modifier</a>
+                    <form method="post" action="{{ path('appointment_delete', {id: appointment.id}) }}" style="display:inline-block" onsubmit="return confirm('Supprimer ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ appointment.id) }}">
+                        <button class="btn btn-sm btn-danger">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Aucun rendez-vous</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
