@@ -1,0 +1,7 @@
+# config/routes.yaml
+
+controllers:
+    resource: ../src/Controller/
+    type: attribute
+
+# tu peux laisser les autres entrées générées par Symfony en dessous si elles existent

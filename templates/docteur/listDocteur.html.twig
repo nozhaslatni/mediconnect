@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des docteurs{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1>Liste des docteurs</h1>
+
+        <a href="{{ path('add_docteur') }}" class="btn btn-primary mb-3">Ajouter un docteur</a>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Téléphone</th>
+                <th>Ville</th>
+                <th>Disponibilité</th>
+                <th>Expérience</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for docteur in docteurs %}
+                <tr>
+                    <td>{{ docteur.id }}</td>
+                    <td>{{ docteur.nom }}</td>
+                    <td>{{ docteur.phone }}</td>
+                    <td>{{ docteur.ville }}</td>
+                    <td>{{ docteur.dispo }}</td>
+                    <td>{{ docteur.experience }}</td>
+                    <td>
+                        <a href="{{ path('docteur_edit', {id: docteur.id}) }}" class="btn btn-sm btn-warning">Modifier</a>
+                        <form method="post"
+                              action="{{ path('docteur_delete', {id: docteur.id}) }}"
+                              style="display:inline-block"
+                              onsubmit="return confirm('Supprimer ce docteur ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ docteur.id) }}">
+                            <button class="btn btn-sm btn-danger">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">Aucun docteur trouvé.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
